@@ -108,13 +108,13 @@ const BarChart: React.VFC<BarChartProps> = ({
   }, [update])
 
   React.useEffect(() => {
-    if (curData.current === data) {
-      sync(data)
+    if (prevData.current === curData.current) {
+      prevData.current = 0
     } else {
       prevData.current = curData.current
       curData.current = data
-      return animate()
     }
+    return animate()
   }, [animate, data, sync])
 
   return (
@@ -132,7 +132,7 @@ const BarChart: React.VFC<BarChartProps> = ({
             <stop key={i} {...e} />
           ))}
         </linearGradient>
-        <linearGradient id="fg" x1="0%" y1="100%" x2="0%" y2="0%">
+        <linearGradient id={foreground[0].stopColor} x1="0%" y1="100%" x2="0%" y2="0%">
           {foreground.map((e, i) => (
             <stop key={i} {...e} />
           ))}
@@ -140,7 +140,7 @@ const BarChart: React.VFC<BarChartProps> = ({
       </defs>
       <g transform={transform}>
         <path d={shape} fill="url(#bg)" />
-        <path id="dataFillTarget" d={dataFill} fill="url(#fg)" />
+        <path d={dataFill} fill={`url(#${foreground[0].stopColor})`} />
       </g>
     </svg>
   )
@@ -149,6 +149,7 @@ const BarChart: React.VFC<BarChartProps> = ({
 BarChart.defaultProps = {
   width: 24,
   height: 100,
+  data: 0,
   backgroundColor: '#F6F8FD',
   foregroundColor: DefaultForegroundColor,
 }

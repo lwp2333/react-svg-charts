@@ -180,6 +180,10 @@ const AreaChart: React.VFC<AreaChartProps> = ({
   const viewBox = React.useMemo(() => `0 0 ${width} ${height}`, [width, height])
   const stops = React.useMemo(() => toColorStops(fillColor), [fillColor])
 
+  const id = React.useMemo(() => {
+    return Array.isArray(fillColor) ? `fillId_${fillColor.join('_')}` : `fillId_${fillColor}`
+  }, [fillColor])
+
   const update = React.useCallback(
     (value: number) => {
       const input = curData.current.map((e, i) => interpolate(prevData.current[i], e, value))
@@ -229,13 +233,13 @@ const AreaChart: React.VFC<AreaChartProps> = ({
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <linearGradient id="fill" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id={stops[0].stopColor} x1="0%" y1="0%" x2="0%" y2="100%">
           {stops.map((e, i) => (
             <stop key={i} {...e} />
           ))}
         </linearGradient>
       </defs>
-      <path d={shapeFill} fill="url(#fill)" />
+      <path d={shapeFill} fill={`url(#${stops[0].stopColor})`} />
       <path d={lineFill} strokeWidth={thickness} stroke={strokeColor} strokeLinecap={smooth ? 'round' : 'square'} fill="none" />
     </svg>
   )

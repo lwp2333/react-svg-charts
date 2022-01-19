@@ -13,7 +13,7 @@ const DefaultColors: ReadonlyArray<[string, string]> = Object.freeze([
   ['#F32C61', '#FF79B0'],
 ])
 
-export interface DoughnutChartProps {
+export interface CircleChartProps {
   /**
    * 数据(数量不能超过`colors`长度)
    */
@@ -235,7 +235,7 @@ function toGradients(strutcs: StructureData[]): GradientData[] {
   }))
 }
 
-const DoughnutChart: React.VFC<DoughnutChartProps> = ({
+const DoughnutChart: React.VFC<CircleChartProps> = ({
   data,
   outterRadius: R = 75,
   innerRadius: r = 55,
@@ -271,7 +271,7 @@ const DoughnutChart: React.VFC<DoughnutChartProps> = ({
       setPaths(rings)
       setGradients(fills)
     },
-    [R, gradients, paths, r]
+    [R, r]
   )
   const animate = React.useCallback(() => {
     progress.current.setValue(0)
@@ -298,7 +298,7 @@ const DoughnutChart: React.VFC<DoughnutChartProps> = ({
     }
     hits.current = toDegrees(curData.current)
     return animate()
-  }, [data])
+  }, [data, animate])
 
   return (
     <svg viewBox={viewBox} style={style} xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink">
