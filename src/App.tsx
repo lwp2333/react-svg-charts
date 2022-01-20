@@ -3,7 +3,6 @@ import BarChart from './components/BarChart'
 import CircleChart from './components/CircleChart'
 import AreaChart from './components/AreaChart'
 import AnimatedCounter from './components/AnimatedCounter'
-import ReportChart from './components/ReportChart'
 
 function App() {
   const [count, setCount] = React.useState(0.8)
@@ -35,8 +34,8 @@ function App() {
         }}
       />
       <AreaChart data={data} />
-      <AreaChart data={data} strokeColor="#F32C61" fillColor={['rgba(243,44,97,0.4)', 'rgba(243,44,97,0.2)']} />
-      <AreaChart data={data} strokeColor="#FFB031" fillColor={['rgba(255,176,49,0.4)', 'rgba(255,176,49,0.2)']} />
+      <AreaChart data={[20, 23, 20, 78, 20]} strokeColor="#F32C61" fillColor={['rgba(243,44,97,0.4)', 'rgba(243,44,97,0.2)']} />
+      <AreaChart data={[20, 40, 18, 60, 20]} strokeColor="#FFB031" fillColor={['rgba(255,176,49,0.4)', 'rgba(255,176,49,0.2)']} />
       <BarChart data={count} />
       <BarChart data={count} foregroundColor={['#F32C61', '#FF79B0']} />
       <BarChart data={count} foregroundColor={['#FFB031', '#FFDA80']} />

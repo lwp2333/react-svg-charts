@@ -180,10 +180,6 @@ const AreaChart: React.VFC<AreaChartProps> = ({
   const viewBox = React.useMemo(() => `0 0 ${width} ${height}`, [width, height])
   const stops = React.useMemo(() => toColorStops(fillColor), [fillColor])
 
-  const id = React.useMemo(() => {
-    return Array.isArray(fillColor) ? `fillId_${fillColor.join('_')}` : `fillId_${fillColor}`
-  }, [fillColor])
-
   const update = React.useCallback(
     (value: number) => {
       const input = curData.current.map((e, i) => interpolate(prevData.current[i], e, value))
