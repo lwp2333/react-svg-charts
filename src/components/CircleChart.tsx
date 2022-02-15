@@ -99,7 +99,7 @@ interface DegreeData {
  * @returns 角度信息
  */
 function toDegrees(input: number[]): DegreeData[] {
-  let acc: number = 0
+  let acc = 0
   const segs: DegreeData[] = []
   for (let i = 0; i < input.length; i++) {
     segs.push({
@@ -260,7 +260,10 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
   const ring = React.useMemo(() => toRingPath(R, r), [R, r])
   const clipPath = React.useMemo(() => toClipPath(R, cr), [R, cr])
   const viewBox = React.useMemo(() => `0 0 ${2 * R} ${2 * R}`, [R])
-  const transform = React.useMemo(() => `translate(${R},${R}) rotate(${rotation}) translate(${-R},${-R})`, [R, rotation])
+  const transform = React.useMemo(
+    () => `translate(${R},${R}) rotate(${rotation}) translate(${-R},${-R})`,
+    [R, rotation]
+  )
 
   const update = React.useCallback(
     (value: number) => {
@@ -301,7 +304,13 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
   }, [data, animate])
 
   return (
-    <svg viewBox={viewBox} style={style} xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink">
+    <svg
+      viewBox={viewBox}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
       <defs>
         <radialGradient id="shadow">
           <stop offset="0%" stopColor={innerShadowColor} stopOpacity="0.8" />

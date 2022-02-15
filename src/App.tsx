@@ -25,26 +25,36 @@ function App() {
     }, 1200)
   }, [])
   return (
-    <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
-      <CircleChart
-        style={{ width: '150px', height: '150px' }}
-        data={data}
-        onSelect={(i, deg) => {
-          console.log(i, deg)
-          setCurrentRotate(deg)
-        }}
+    <>
+      <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+        <CircleChart
+          style={{ width: '150px', height: '150px' }}
+          data={data}
+          onSelect={(i, deg) => {
+            console.log(i, deg)
+            setCurrentRotate(deg)
+          }}
+        />
+        <AnimatedArrow deg={currentRotate} />
+      </div>
+      <AreaChart data={data} />
+      <AreaChart
+        data={[20, 23, 20, 78, 20]}
+        strokeColor="#F32C61"
+        fillColor={['rgba(243,44,97,0.4)', 'rgba(243,44,97,0.2)']}
       />
-      <AnimatedArrow deg={currentRotate} />
-      {/* <AreaChart data={data} />
-      <AreaChart data={[20, 23, 20, 78, 20]} strokeColor="#F32C61" fillColor={['rgba(243,44,97,0.4)', 'rgba(243,44,97,0.2)']} />
-      <AreaChart data={[20, 40, 18, 60, 20]} strokeColor="#FFB031" fillColor={['rgba(255,176,49,0.4)', 'rgba(255,176,49,0.2)']} />
+      <AreaChart
+        data={[20, 40, 18, 60, 20]}
+        strokeColor="#FFB031"
+        fillColor={['rgba(255,176,49,0.4)', 'rgba(255,176,49,0.2)']}
+      />
       <BarChart data={count} />
       <BarChart data={count} foregroundColor={['#F32C61', '#FF79B0']} />
       <BarChart data={count} foregroundColor={['#FFB031', '#FFDA80']} />
-      <AnimatedCounter data={currentNum} />
+      <AnimatedCounter data={currentRotate} />
       <button onClick={add}>增</button>
-      <button onClick={decrease}>减</button> */}
-    </div>
+      <button onClick={decrease}>减</button>
+    </>
   )
 }
 

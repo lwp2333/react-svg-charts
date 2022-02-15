@@ -236,7 +236,13 @@ const AreaChart: React.VFC<AreaChartProps> = ({
         </linearGradient>
       </defs>
       <path d={shapeFill} fill={`url(#${stops[0].stopColor})`} />
-      <path d={lineFill} strokeWidth={thickness} stroke={strokeColor} strokeLinecap={smooth ? 'round' : 'square'} fill="none" />
+      <path
+        d={lineFill}
+        strokeWidth={thickness}
+        stroke={strokeColor}
+        strokeLinecap={smooth ? 'round' : 'square'}
+        fill="none"
+      />
     </svg>
   )
 }
