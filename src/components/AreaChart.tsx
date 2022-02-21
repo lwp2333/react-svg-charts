@@ -1,5 +1,5 @@
 import React from 'react'
-import { interpolate, normalize, toColorStops } from '../utils'
+import { interpolate, normalize, toColorStops, generateUniqueId } from '@/utils'
 import Animated from 'animated/lib/targets/react-dom'
 
 const DefaultFillColor = Object.freeze<[string, string]>(['rgba(0, 153, 255, 0.4)', 'rgba(0, 102, 255, 0)'])
@@ -179,6 +179,7 @@ const AreaChart: React.VFC<AreaChartProps> = ({
   const progress = React.useRef(new Animated.Value(0))
   const viewBox = React.useMemo(() => `0 0 ${width} ${height}`, [width, height])
   const stops = React.useMemo(() => toColorStops(fillColor), [fillColor])
+  const uniqueId = generateUniqueId('AreaChart')
 
   const update = React.useCallback(
     (value: number) => {
@@ -216,7 +217,7 @@ const AreaChart: React.VFC<AreaChartProps> = ({
     if (prevData.current.length !== curData.current.length) {
       prevData.current = curData.current.map(() => 0)
     }
-    animate()
+    return animate()
   }, [animate, data])
 
   return (
@@ -229,13 +230,13 @@ const AreaChart: React.VFC<AreaChartProps> = ({
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <linearGradient id={stops[0].stopColor} x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id={uniqueId} x1="0%" y1="0%" x2="0%" y2="100%">
           {stops.map((e, i) => (
             <stop key={i} {...e} />
           ))}
         </linearGradient>
       </defs>
-      <path d={shapeFill} fill={`url(#${stops[0].stopColor})`} />
+      <path d={shapeFill} fill={`url(#${uniqueId})`} />
       <path
         d={lineFill}
         strokeWidth={thickness}

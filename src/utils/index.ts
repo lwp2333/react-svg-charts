@@ -55,3 +55,20 @@ export function normalize(data: number[], model: 'comparison' | 'percentage') {
   }
   return data.map(e => (base ? e / base : 0))
 }
+
+/**
+ * 生成唯一id
+ * @returns UUID
+ */
+export const generateUniqueId = (prefix?: string) => {
+  let d = new Date().getTime()
+  if (window.performance && typeof window.performance.now === 'function') {
+    d += performance.now() //use high-precision timer if available
+  }
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (d + Math.random() * 16) % 16 | 0
+    d = Math.floor(d / 16)
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  })
+  return prefix ? prefix + uuid : uuid
+}

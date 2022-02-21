@@ -1,5 +1,5 @@
 import React from 'react'
-import { interpolate, normalize } from '../utils'
+import { interpolate, normalize, generateUniqueId } from '@/utils'
 import Animated from 'animated/lib/targets/react-dom'
 
 /**
@@ -13,7 +13,7 @@ const DefaultColors: ReadonlyArray<[string, string]> = Object.freeze([
   ['#F32C61', '#FF79B0'],
 ])
 
-export interface CircleChartProps {
+export interface DoughnutChartProps {
   /**
    * 数据(数量不能超过`colors`长度)
    */
@@ -235,7 +235,7 @@ function toGradients(strutcs: StructureData[]): GradientData[] {
   }))
 }
 
-const DoughnutChart: React.VFC<CircleChartProps> = ({
+const DoughnutChart: React.VFC<DoughnutChartProps> = ({
   data,
   outterRadius: R = 75,
   innerRadius: r = 55,
@@ -264,6 +264,7 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
     () => `translate(${R},${R}) rotate(${rotation}) translate(${-R},${-R})`,
     [R, rotation]
   )
+  const uniqueId = generateUniqueId('CircleChart')
 
   const update = React.useCallback(
     (value: number) => {
@@ -301,7 +302,7 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
     }
     hits.current = toDegrees(curData.current)
     return animate()
-  }, [data, animate])
+  }, [animate, data])
 
   return (
     <svg
@@ -312,23 +313,23 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <radialGradient id="shadow">
+        <radialGradient id={`shadow-${uniqueId}`}>
           <stop offset="0%" stopColor={innerShadowColor} stopOpacity="0.8" />
           <stop offset={cr / r} stopColor={innerShadowColor} stopOpacity="0.5" />
           <stop offset="100%" stopColor={innerShadowColor} stopOpacity="0" />
         </radialGradient>
         {seed.map((_, i) => (
-          <linearGradient key={i} {...gradients[i]} id={`linear-${i}`}>
+          <linearGradient key={i} {...gradients[i]} id={`linear-${i}-${uniqueId}`}>
             <stop offset="0%" stopColor={colors[i][0]} />
             <stop offset="100%" stopColor={colors[i][1]} />
           </linearGradient>
         ))}
-        <clipPath id="clip">
+        <clipPath id={`clip-${uniqueId}`}>
           <path d={clipPath} clipRule="evenodd" />
         </clipPath>
       </defs>
       <g>
-        <circle cx={R} cy={R} r={r} fill="url(#shadow)" clipPath="url(#clip)" />
+        <circle cx={R} cy={R} r={r} fill={`url(#shadow-${uniqueId})`} clipPath={`url(#clip-${uniqueId})`} />
       </g>
       <g>
         <path {...ring} fill={outterRingColor} fillRule="evenodd" />
@@ -338,7 +339,7 @@ const DoughnutChart: React.VFC<CircleChartProps> = ({
           <path
             key={i}
             fillRule="evenodd"
-            fill={`url(#linear-${i})`}
+            fill={`url(#linear-${i}-${uniqueId})`}
             d={paths[i]?.d}
             onClick={() => {
               if (onSelect) {

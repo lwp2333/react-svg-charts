@@ -1,5 +1,5 @@
 {
-  "name": "vite-project",
+  "name": "react-svg-charts",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite --host",
@@ -16,6 +16,7 @@
     "tinycolor2": "^1.4.2"
   },
   "devDependencies": {
+    "@types/node": "^17.0.18",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/tinycolor2": "^1.4.3",

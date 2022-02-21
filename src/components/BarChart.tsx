@@ -1,5 +1,5 @@
 import React from 'react'
-import { interpolate, toColorStops } from '../utils'
+import { interpolate, toColorStops, generateUniqueId } from '@/utils'
 import Animated from 'animated/lib/targets/react-dom'
 export interface BarChartProps {
   /**
@@ -72,6 +72,7 @@ const BarChart: React.VFC<BarChartProps> = ({
   const foreground = React.useMemo(() => toColorStops(foregroundColor), [foregroundColor])
   const shape = React.useMemo(() => toPath(width, height), [height, width])
   const transform = React.useMemo(() => `translate(0, ${height - width / 2})`, [height, width])
+  const uniqueId = generateUniqueId('BarChart')
 
   const sync = React.useCallback(
     (input: number) => {
@@ -127,20 +128,20 @@ const BarChart: React.VFC<BarChartProps> = ({
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <linearGradient id="bg" x1="0%" y1="100%" x2="0%" y2="0%">
+        <linearGradient id={`bg-${uniqueId}`} x1="0%" y1="100%" x2="0%" y2="0%">
           {background.map((e, i) => (
             <stop key={i} {...e} />
           ))}
         </linearGradient>
-        <linearGradient id={foreground[0].stopColor} x1="0%" y1="100%" x2="0%" y2="0%">
+        <linearGradient id={`fg-${uniqueId}`} x1="0%" y1="100%" x2="0%" y2="0%">
           {foreground.map((e, i) => (
             <stop key={i} {...e} />
           ))}
         </linearGradient>
       </defs>
       <g transform={transform}>
-        <path d={shape} fill="url(#bg)" />
-        <path d={dataFill} fill={`url(#${foreground[0].stopColor})`} />
+        <path d={shape} fill={`url(#bg-${uniqueId})`} />
+        <path id="dataFillTarget" d={dataFill} fill={`url(#fg-${uniqueId})`} />
       </g>
     </svg>
   )
@@ -149,7 +150,6 @@ const BarChart: React.VFC<BarChartProps> = ({
 BarChart.defaultProps = {
   width: 24,
   height: 100,
-  data: 0,
   backgroundColor: '#F6F8FD',
   foregroundColor: DefaultForegroundColor,
 }
