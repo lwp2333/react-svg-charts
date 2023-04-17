@@ -11,9 +11,13 @@ function App() {
   const [currentRotate, setCurrentRotate] = React.useState(0)
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setCount(0.4)
     }, 1200)
+
+    return () => {
+      clearTimeout(timer)
+    }
   }, [])
   return (
     <div className="container">
@@ -89,3 +93,4 @@ function App() {
 }
 
 export default App
+
